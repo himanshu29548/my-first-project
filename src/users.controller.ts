@@ -1,39 +1,32 @@
-import { Controller, Get, HttpCode, Redirect, Req, Res } from "@nestjs/common";
+import { Controller, Get, Headers, HttpCode, Param, Query, Redirect, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
+
+interface videoParams {
+    id:number;
+    name:string;
+}
+interface videoQuery {
+    id:number;
+    name:string;
+}
 
 @Controller('/users')
 export class UserController {
-
-    @Get("/profile")
-    @HttpCode(200)
-    // @Redirect('/users/account',302)
-    getProfile(@Req() req:Request){
-        // return {"name":"Himanshu Saini"}
-        let rand = (Math.random()*10+1)
-        console.log("object--------->",rand)
-        if(rand<5) {
-            return {
-                url:'/users/account',
-            };
-        }
-        else {
-            return {
-                url:'/users/wallet',
-            };
-        }
+    @Get('/vedio/:id/:name')
+    getVideo(@Param() params:videoParams ){
+        console.log(params.id);
+        return params;
     }
 
-    @Get('/account')
-    getAccount(){
-        return {
-            "account":"Saving Account"
-        }
+    @Get('/vedio')
+    getVideos(@Query() query:videoQuery ){
+        console.log(query.id);
+        return query;
     }
-
-    @Get('/wallet')
-    getWallet(){
-        return {
-            "account":"Wallet Account"
-        }
+    
+    @Get('/vedios')
+    getHeader(@Headers() headers:Record<string, any> ){
+        console.log(headers)
+        return headers
     }
 }
